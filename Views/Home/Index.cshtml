@@ -1,0 +1,112 @@
+﻿@model SistemadeVentasOnline.Models.Home.HomeIndexView
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Inicio";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="nav-menus">
+            <ul class="nav nav-pills navbar-left">
+                <li class=active><a style="border-radius:initial;" href="~/Home/Index">Inicio</a></li>
+                <li><a style="border-radius:initial;" href="~/Home/Categorias">Categorias</a></li>
+            </ul>
+            <ul class="nav nav-pills navbar-right">
+                <li><a style="border-radius:initial;" href="~/Access/Login">Iniciar Sesion</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<br />
+
+<div id="themeSlider" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#themeSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#themeSlider" data-slide-to="1"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <div class="imgOverlay"></div>
+            <img style="height:500px;width:100%" src="../Images/Vino.jpg" alt="First slide">
+            <div class="carousel-caption">
+                <h3>Los mejores vinos</h3>
+            </div>
+        </div>
+        <div class="item">
+            <div class="imgOverlay"></div>
+            <img style="height:500px;width:100%" src="../Images/Havana.jpg" alt="Second slide">
+            <div class="carousel-caption">
+                <h3>Alfajores Havana, al mejor precio</h3>
+            </div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#themeSlider" data-slide="prev">
+        <span class="fa fa-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#themeSlider" data-slide="next">
+        <span class="fa fa-chevron-right"></span>
+    </a>
+</div>
+
+<div class="olContent f1"><h2 style="color:black">Buscar producto/categoria</h2></div>
+<form method="post">
+    <div class="olSearch fr">
+        <input type="text" name="search" placeholder="Ingresa el producto/categoria" class="inputComn form-control" />
+        <div class="searchIcon">
+            <button type="submit" class="searchBtn">
+                <img src="~/Images/searchIcon.png" />
+            </button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>Nuestro Productos<small> tendencia</small></h2>
+        </div>
+    </div>
+</div>
+
+<div class="row product-container">
+    @foreach (var item in Model.ListaProductos)
+    {
+        <div class="col-md-3 col-sm-3 col-xs-6" style="margin-bottom:8px">
+            <div class="thumbnail product-item" style="height:500px">
+                <img class="img-responsive" title="Click para ver el detalle del producto"
+                     style="cursor:pointer;height:70%;width:100%"
+                     src="~/ProductImg/@item.ProductImage" />
+                <div class="caption">
+                    <h5>@item.ProductoNombre</h5>
+                    <p>$ @item.Precio</p>
+                    @if (item.Cantidad > 0)
+                    {
+                        <p>Disponible</p>
+                        using (Html.BeginForm("Login", "Access", FormMethod.Post))
+                        {
+                            <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                            <input type="number" name="cantidad" placeholder="Ingresa la cantidad" class="input-group-text pull-right" />
+                        }
+                    }
+                    else
+                    {
+                        <p>Sin Stock</p>
+                    }
+                    <div class="product-item-badge">
+                        @if (item.FechaCreacion > @DateTime.Now.AddDays(-7))
+                        {
+                            <p>Nuevo</p>
+                        }
+                        else
+                        {
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="container">
+    @Html.PagedListPager(Model.ListaProductos, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }))
+</div>

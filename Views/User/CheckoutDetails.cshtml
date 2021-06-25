@@ -1,0 +1,49 @@
+﻿@using SistemadeVentasOnline.Models.User;
+@{
+    ViewBag.Title = "CheckoutDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Session["cart"] == null)
+{
+    <div class="alert alert-danger">
+        <strong>No se agregaron productos al carrito!</strong>
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>SubTotal</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int Total = 0;
+            }
+            @foreach (Item item in (List<Item>)Session["cart"])
+            {
+                int lineTotal = Convert.ToInt32(item.Cantidad * item.Producto.Precio);
+                Total = Convert.ToInt32(@Total + lineTotal);
+                <tr>
+                    <td>@item.Producto.ProductoNombre</td>
+                    <td>@item.Producto.Precio</td>
+                    <td>@item.Cantidad</td>
+                    <td>@lineTotal</td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="4" class="text-right"><b>Total: @Total</b></td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success">Pagar >></button>
+
+}

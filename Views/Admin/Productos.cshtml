@@ -1,0 +1,58 @@
+﻿@model List< SistemadeVentasOnline.Models.Producto>
+
+@{
+    ViewBag.Title = "Productos";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Productos</li>
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Productos
+            <a href="../Admin/AgregarProducto" class="btn btn-info pull-right fa fa-plus">Agregar Producto</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Producto</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Producto</th>
+                            <th>Accion</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                        <tr>
+                            <td>@item.Cantidad</td>
+                            <td>@item.ProductoNombre</td>
+                            <td>
+                                <a href="~/Admin/EditarProducto/@item.ProductoId">Editar</a>
+                                <a href="~/Admin/EliminarProducto/@item.ProductoId" style="color:red" onclick="return confirm('Esta seguro que desea eliminar?')">Eliminar</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

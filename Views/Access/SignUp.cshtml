@@ -1,0 +1,64 @@
+﻿@{ ViewBag.Title = "SignUp"; }
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="~/LoginStyle/sb-login.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div id="first">
+                    <div class="myform form ">
+                        <div class="logo mb-3">
+                            <div class="col-md-12 text-center">
+                                <h1>Registrarse</h1>
+                            </div>
+                        </div>
+                        <form action="@Url.Content("~/Access/SignUp")" name="registration">
+                            @using (Html.BeginForm("SignUp", "Access", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nombre</label>
+                            <input type="text" name="firstname" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Ingresa tu nombre">
+                        </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Apellido</label>
+                                <input type="text" name="lastname" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Ingresa tu apellido">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingresa tu email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Contraseña</label>
+                                <input type="password" name="password" id="password" class="form-control" aria-describedby="emailHelp" placeholder="Ingresa tu Contraseña">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Confirma tu contraseña</label>
+                                <input type="password" name="password2" id="password2" class="form-control" aria-describedby="emailHelp" placeholder="Confirma tu Contraseña">
+                            </div>
+                            <br />
+                            <div class="col-md-12 text-center mb-3">
+                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Registrate!</button>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="form-group">
+                                    <p class="text-center"><a href="~/Access/Login" id="signin">Ya tienes una cuenta?</a></p>
+                                </div>
+                            </div>
+                            }
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+

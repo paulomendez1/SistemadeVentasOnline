@@ -1,0 +1,78 @@
+﻿@model SistemadeVentasOnline.Models.User.UserIndexView
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Categorias";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="nav-menus">
+            <ul class="nav nav-pills navbar-left">
+                <li><a style="border-radius:initial;" href="~/User/UserIndex">Inicio</a></li>
+                <li class=active><a style="border-radius:initial;" href="~/User/UserCategorias">Categorias</a></li>
+            </ul>
+            <ul class="nav nav-pills navbar-right">
+                <li><a style="border-radius:initial;" href="~/Access/Login">Iniciar Sesion</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="container">
+    <form method="post">
+        <input type="submit" id="search" name="search" readonly="readonly" value="Seleccionar Categoria" />
+        @Html.DropDownListFor(Model => Model.ListaCategorias, ViewBag.Categorias as SelectList, "--Seleccionar Categoria--", new { @onChange = "SelectedItem(this)" })
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<br />
+<script>
+    function SelectedItem(listItem)
+    {
+        var SelectedValue = listItem.value;
+        var SelectedText = listItem.options[listItem.selectedIndex].innerHTML;
+        $('#search').val(SelectedText);
+    }
+</script>
+
+<div class="row product-container">
+
+    @foreach (var item in Model.ListaProductos)
+    {
+        <div class="col-md-3 col-sm-3 col-xs-6" style="margin-bottom:8px">
+            <div class="thumbnail product-item" style="height:500px">
+                <img class="img-responsive" title="Click para ver el detalle del producto"
+                     style="cursor:pointer;height:70%;width:100%"
+                     src="~/ProductImg/@item.ProductImage" />
+                <div class="caption">
+                    <h5>@item.ProductoNombre</h5>
+                    <p>$ @item.Precio</p>
+                    @if (item.Cantidad > 0)
+                    {
+                        <p>Disponible</p>
+                    }
+                    else
+                    {
+                        <p>Sin Stock</p>
+                    }
+                    <div class="product-item-badge">
+                        @if (item.FechaCreacion > @DateTime.Now.AddDays(-7))
+                        {
+                            <p>Nuevo</p>
+                        }
+                        else
+                        {
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="container">
+    @Html.PagedListPager(Model.ListaProductos, page => Url.Action("Categorias", new { page, search = Request.QueryString["search"] }))
+</div>
