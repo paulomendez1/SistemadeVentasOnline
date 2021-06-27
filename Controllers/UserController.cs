@@ -45,58 +45,72 @@ namespace SistemadeVentasOnline.Controllers
         }
 
         [AuthorizationFilter]
-        public ActionResult AddToCart(int productId, int cantidad, string url)
+        public ActionResult AddToCart(int productId, int? cantidad)
         {
             using (SistemadeVentasEntities db = new SistemadeVentasEntities())
             {
-                if (Session["cart"] == null)
+                if (cantidad <= 0 || cantidad == null)
                 {
-                    List<Item> cart = new List<Item>();
-                    var product = db.Productoes.Find(productId);
-                    cart.Add(new Item()
-                    {
-                        Producto = product,
-                        Cantidad = cantidad
-                    });
-                    Session["cart"] = cart;
+                    Response.Write("<script>alert('La categoria ingresada ya existe!')</script>");
+                    return Redirect("UserIndex");
                 }
                 else
                 {
-                    List<Item> cart = (List<Item>)Session["cart"];
-                    var count = cart.Count();
-                    var product = db.Productoes.Find(productId);
-                    for (int i = 0; i < count; i++)
+                    if (Session["cart"] == null)
                     {
-                        if (cart[i].Producto.ProductoId == productId)
+                        List<Item> cart = new List<Item>();
+                        var product = db.Productoes.Find(productId);
+                        cart.Add(new Item()
                         {
-                            int prevQty = cart[i].Cantidad;
-                            cart.Remove(cart[i]);
-                            cart.Add(new Item()
-                            {
-                                Producto = product,
-                                Cantidad = prevQty + 1
-                            });
-                            break;
-                            
+                            Producto = product,
+                            Cantidad = (int)cantidad
+                        });
+                        if (cantidad > product.Cantidad)
+                        {
+                            Response.Write("<script>alert('La categoria ingresada ya existe!')</script>");
                         }
                         else
                         {
-                            var prd = cart.Where(x => x.Producto.ProductoId == productId).SingleOrDefault();
-                            if (prd == null)
+                            Session["cart"] = cart;
+                        }
+
+                    }
+                    else
+                    {
+                        List<Item> cart = (List<Item>)Session["cart"];
+                        var count = cart.Count();
+                        var product = db.Productoes.Find(productId);
+                        for (int i = 0; i < count; i++)
+                        {
+                            if (cart[i].Producto.ProductoId == productId)
                             {
+                                int prevQty = cart[i].Cantidad;
+                                cart.Remove(cart[i]);
                                 cart.Add(new Item()
                                 {
                                     Producto = product,
-                                    Cantidad = cantidad
+                                    Cantidad = (int)(prevQty + cantidad)
                                 });
+
+                            }
+                            else
+                            {
+                                var prd = cart.Where(x => x.Producto.ProductoId == productId).SingleOrDefault();
+                                if (prd == null)
+                                {
+                                    cart.Add(new Item()
+                                    {
+                                        Producto = product,
+                                        Cantidad = (int)cantidad
+                                    });
+                                }
                             }
                         }
                     }
-                    Session["cart"] = cart;
+                    return Redirect("UserIndex");
                 }
-                
             }
-            return Redirect("UserIndex");
+            
         }
 
         [AuthorizationFilter]

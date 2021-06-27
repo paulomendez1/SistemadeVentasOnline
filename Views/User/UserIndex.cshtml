@@ -126,5 +126,5 @@
     }
 </div>
 <div class="container">
-    @Html.PagedListPager(Model.ListaProductos, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }))
+    @Html.PagedListPager(Model.ListaProductos, page => Url.Action("UserIndex", new { page, search = Request.QueryString["search"] }))
 </div>

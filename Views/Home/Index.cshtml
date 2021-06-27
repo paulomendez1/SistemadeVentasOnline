@@ -92,21 +92,23 @@
                     {
                         <p>Sin Stock</p>
                     }
-                    <div class="product-item-badge">
-                        @if (item.FechaCreacion > @DateTime.Now.AddDays(-7))
-                        {
+                    @if (item.FechaCreacion > @DateTime.Now.AddDays(-7))
+                    {
+                        <div class="product-item-badge">
                             <p>Nuevo</p>
-                        }
-                        else
-                        {
+                        </div>
+                    }
+                    else
+                    {
 
-                        }
-                    </div>
+                    }
                 </div>
             </div>
         </div>
-    }
-</div>
-<div class="container">
-    @Html.PagedListPager(Model.ListaProductos, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }))
-</div>
+   
+    
+}
+    </div>
+    <div class="container">
+        @Html.PagedListPager(Model.ListaProductos, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }))
+    </div>

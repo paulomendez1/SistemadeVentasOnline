@@ -1,6 +1,7 @@
 ﻿@model SistemadeVentasOnline.Models.User.UserIndexView
 @using PagedList;
 @using PagedList.Mvc;
+@using SistemadeVentasOnline.Models.User
 @{
     ViewBag.Title = "Categorias";
 }
@@ -10,11 +11,28 @@
     <div class="col-md-12">
         <div class="nav-menus">
             <ul class="nav nav-pills navbar-left">
-                <li><a style="border-radius:initial;" href="~/User/UserIndex">Inicio</a></li>
-                <li class=active><a style="border-radius:initial;" href="~/User/UserCategorias">Categorias</a></li>
+                <li class=active><a style="border-radius:initial;" href="~/User/UserIndex">Inicio</a></li>
+                <li><a style="border-radius:initial;" href="~/User/UserCategorias">Categorias</a></li>
             </ul>
             <ul class="nav nav-pills navbar-right">
-                <li><a style="border-radius:initial;" href="~/Access/Login">Iniciar Sesion</a></li>
+                <li class="disabled"><a style="border-radius:initial;" href="#">Hola @Session["User"]!</a></li>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Carrito <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        @if (Session["cart"] != null)
+                        {
+                            foreach (Item item in (List<Item>)Session["cart"])
+                            {
+                                <li><a href="@Url.Action("RemoveFromCart", "User", new { productId = item.Producto.ProductoId })">@item.Producto.ProductoNombre (@item.Cantidad) <i class="fa fa-times"></i></a></li>
+                            }
+                        }
+                        <li class="divider"></li>
+                        <li><a href="@Url.Action("Checkout","User")">Finaliza tu compra!</a></li>
+
+
+                    </ul>
+                </li>
+                <li><a style="border-radius:initial;" href="@Url.Action("Logout","User")">Cerrar Sesion</a></li>
             </ul>
         </div>
     </div>
@@ -30,8 +48,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <br />
 <script>
-    function SelectedItem(listItem)
-    {
+    function SelectedItem(listItem) {
         var SelectedValue = listItem.value;
         var SelectedText = listItem.options[listItem.selectedIndex].innerHTML;
         $('#search').val(SelectedText);
