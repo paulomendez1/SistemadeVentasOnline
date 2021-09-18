@@ -3,7 +3,7 @@ Full E-Commerce system with Log-In and Session Management
 
 IDE: Visual Studio 2019
 
-Front-End: Bootstrap 3
+Front-End: Razor ASP.NET (Bootstrap styles)
 
 Back-End: ASP.NET C#
 
