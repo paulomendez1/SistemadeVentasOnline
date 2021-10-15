@@ -5,7 +5,7 @@ IDE: Visual Studio 2019
 
 Front-End: Razor ASP.NET (Bootstrap styles)
 
-Back-End: ASP.NET C#
+Back-End: ASP.NET
 
 DB: SQL Server 2017 (Included in repository)
 
